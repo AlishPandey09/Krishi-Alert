@@ -1,0 +1,199 @@
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+  <!-- Page Content -->
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Commodities</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item active">Commodities</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <br />
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table
+            class="table table-striped custom-table datatable"
+            id="datatable"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Commodity ID</th>
+                <th>Crop Name</th>
+                <th>MSP</th>
+                <th>Unit of Measurement</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let crop of allCrops; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ crop._id }}</td>
+                <td>
+                  {{ crop.CropName }}
+                </td>
+                <td>{{ crop.MSP }}</td>
+                <td>{{ crop.Unit }}</td>
+                <td class="text-right">
+                  <div class="dropdown dropdown-action">
+                    <a
+                      class="action-icon dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      ><i class="las la-ellipsis-v"></i
+                    ></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a (click)="edit(crop._id)"
+                        class="dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#edit_crops"
+                        ><i class="fa fa-pencil m-r-5"></i>Edit</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="!allCrops">
+                <td colspan="10">
+                  <h5 style="text-align: center">No data found</h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Page Content -->
+
+  <div id="edit_crops" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Crop</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+            <form (ngSubmit)="editCropSubmit()" [formGroup]="editCrops">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="col-form-label"
+                    >Crop Name <span class="text-danger">*</span></label
+                  >
+                  <input
+                    class="form-control"
+                    type="text"
+                    [class.invalid]="
+                      editCrops.get('editCropName').invalid &&
+                      editCrops.get('editCropName').touched
+                    "
+                    formControlName="editCropName"
+                  />
+                  <div
+                    *ngIf="
+                      editCrops.get('editCropName').invalid &&
+                      editCrops.get('editCropName').touched
+                    "
+                  >
+                    <small
+                      *ngIf="
+                        editCrops.get('editCropName').invalid &&
+                        editCrops.get('editCropName').touched
+                      "
+                      class="text-danger"
+                    >
+                      *Crop Name is required</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="col-form-label"
+                    >MSP (Minimum Support Price)<span class="text-danger">*</span></label
+                  >
+                  <input
+                    class="form-control"
+                    type="number"
+                    [class.invalid]="
+                      editCrops.get('editMSP').invalid &&
+                      editCrops.get('editMSP').touched
+                    "
+                    formControlName="editMSP"
+                  />
+                  <div
+                    *ngIf="
+                      editCrops.get('editMSP').invalid &&
+                      editCrops.get('editMSP').touched
+                    "
+                  >
+                    <small
+                      *ngIf="
+                        editCrops.get('editMSP').invalid &&
+                        editCrops.get('editMSP').touched
+                      "
+                      class="text-danger"
+                    >
+                      *MSP is required</small
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="col-form-label">Unit of Measurement</label>
+                  <input
+                    class="select form-control"
+                    [class.invalid]="
+                      editCrops.get('editUnitOfMeasure').invalid &&
+                      editCrops.get('editUnitOfMeasure').touched
+                    "
+                    formControlName="editUnitOfMeasure"
+                  >
+                  <div
+                    *ngIf="
+                      editCrops.get('editUnitOfMeasure').invalid &&
+                      editCrops.get('editUnitOfMeasure').touched
+                    "
+                  >
+                    <small
+                      *ngIf="
+                        editCrops.get('editUnitOfMeasure').invalid &&
+                        editCrops.get('editUnitOfMeasure').touched
+                      "
+                      class="text-danger"
+                    >
+                      *Unit of Measurement is required</small
+                    >
+                  </div>
+                </div>
+              </div>
+
+             
+            </div>
+            <div class="submit-section">
+              <button class="btn btn-primary submit-btn">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
